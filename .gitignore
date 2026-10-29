@@ -1,0 +1,19 @@
+# Local WordPress and IDE artifacts
+.env
+.env.*
+!.env.example
+*.log
+*.sql
+*.sqlite
+*.bak
+*.zip
+*.pem
+*.key
+wp-config.php
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+node_modules/
+*.swp
+*.swo

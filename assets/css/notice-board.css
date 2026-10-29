@@ -1,0 +1,160 @@
+/* LB_STEP627 — Notice Board, isolated from all LittleBloom page panels. */
+.lb-notice-board-627[hidden] { display: none !important; }
+.lb-notice-board-627 {
+    box-sizing: border-box;
+    position: fixed !important;
+    z-index: 999999 !important;
+    width: min(560px, calc(100vw - 24px));
+    max-height: calc(100dvh - 24px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: clamp(18px, 3vw, 25px);
+    border: 2px solid #ffffff;
+    border-radius: 22px;
+    background: #fffcf3;
+    box-shadow: 0 18px 55px rgba(26, 58, 91, .23), 0 0 0 1px rgba(23, 54, 91, .08);
+    color: #17365b;
+    font-family: "Nunito", "Open Sans", system-ui, sans-serif;
+    line-height: 1.5;
+}
+.lb-notice-board-627, .lb-notice-board-627 * { box-sizing: border-box; }
+.lb-notice-board-627__heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 14px; }
+.lb-notice-board-627__eyebrow { display: block; font-size: 11px; font-weight: 800; letter-spacing: .13em; color: #226e62; }
+.lb-notice-board-627__heading h2 { margin: 4px 0 5px !important; font-size: clamp(20px, 2.5vw, 25px) !important; line-height: 1.2; font-weight: 800; color: #17365b; }
+.lb-notice-board-627__heading p { margin: 0 !important; font-size: 13px; color: #344b61; }
+.lb-notice-board-627__close {
+    display: inline-flex; align-items: center; justify-content: center; flex: 0 0 40px;
+    width: 40px; height: 40px; min-height: 40px; border-radius: 50%;
+    padding: 0; border: 1px solid #d3e1dc; background: #fff;
+    color: #17365b; font-size: 28px; line-height: 1; cursor: pointer;
+}
+.lb-notice-board-627__close:hover { background: #e3f2e9; }
+.lb-notice-board-627 :focus-visible { outline: 3px solid #126e61 !important; outline-offset: 3px; }
+.lb-notice-board-627__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 19px;
+}
+.lb-notice-board-627__note {
+    position: relative;
+    min-width: 0;
+    min-height: 125px;
+    padding: 23px 18px 16px;
+    border: 1px solid rgba(23, 54, 91, .09);
+    border-radius: 5px 5px 17px 5px;
+    background: var(--lbnb-card-color, var(--lbnb-palette-1, #fff0b9));
+    box-shadow: 0 5px 13px rgba(23, 54, 91, .09);
+    overflow-wrap: anywhere;
+}
+.lb-notice-board-627__note:nth-child(4n + 2) { background: var(--lbnb-card-color, var(--lbnb-palette-2, #f8e2ec)); }
+.lb-notice-board-627__note:nth-child(4n + 3) { background: var(--lbnb-card-color, var(--lbnb-palette-3, #dff1e8)); }
+.lb-notice-board-627__note:nth-child(4n + 4) { background: var(--lbnb-card-color, var(--lbnb-palette-4, #e1edfc)); }
+.lb-notice-board-627__note time { display: block; margin-bottom: 8px; color: #426079; font-size: 11px; font-weight: 700; }
+.lb-notice-board-627__note h3 { margin: 0 0 7px !important; font-size: 16px !important; line-height: 1.28; font-weight: 800; color: #17365b; }
+.lb-notice-board-627__note p { margin: 0 !important; font-size: 13px !important; line-height: 1.52; color: #344b61; }
+.lb-notice-board-627__empty {
+    margin-top: 18px; padding: 20px; text-align: center; border-radius: 14px;
+    background: #e6f3eb; border: 1px solid #d1e8dc;
+}
+.lb-notice-board-627__empty span { display: block; font-size: 25px; }
+.lb-notice-board-627__empty p { margin: 6px 0 0 !important; font-size: 13px; color: #344b61; }
+.lb-notice-board-627__empty p:first-of-type { color: #17365b; font-weight: 800; }
+@media (max-width: 560px) {
+    .lb-notice-board-627 { padding: 16px; border-radius: 17px; }
+    .lb-notice-board-627__grid { grid-template-columns: 1fr; gap: 12px; }
+    .lb-notice-board-627__note { min-height: 0; padding: 20px 16px 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .lb-notice-board-627 *, .lb-notice-board-627 { scroll-behavior: auto !important; transition: none !important; animation: none !important; }
+}
+/* LB_STEP629_START — LittleBloom Notice Board layout refinements.
+ * Layout only: one note fills the panel; two notes remain side by side;
+ * three/four notes scroll within the note grid so the archive link stays nearby.
+ * No changes to Header, announcements archive, notices, or scripts.
+ */
+.lb-notice-board-627 .lb-notice-board-627__grid:has(> .lb-notice-board-627__note:only-child) {
+    grid-template-columns: minmax(0, 1fr);
+}
+
+/* Step 627 shows at most four recent notices. For three or four,
+   let the card area scroll instead of extending the popover indefinitely. */
+.lb-notice-board-627 .lb-notice-board-627__grid:has(> .lb-notice-board-627__note:nth-child(3)) {
+    max-height: min(290px, 40dvh);
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    scrollbar-width: thin;
+    scrollbar-color: #a0bfb7 transparent;
+    padding: 4px 8px 12px 4px;
+    margin-right: -8px;
+}
+.lb-notice-board-627 .lb-notice-board-627__grid:has(> .lb-notice-board-627__note:nth-child(3))::-webkit-scrollbar {
+    width: 7px;
+}
+.lb-notice-board-627 .lb-notice-board-627__grid:has(> .lb-notice-board-627__note:nth-child(3))::-webkit-scrollbar-thumb {
+    background-color: #a0bfb7;
+    border-radius: 20px;
+}
+@media (max-width: 560px) {
+    .lb-notice-board-627 .lb-notice-board-627__grid:has(> .lb-notice-board-627__note:only-child) {
+        grid-template-columns: minmax(0, 1fr);
+    }
+    .lb-notice-board-627 .lb-notice-board-627__grid:has(> .lb-notice-board-627__note:nth-child(3)) {
+        max-height: min(290px, 38dvh);
+    }
+}
+/* LB_STEP629_END */
+
+/* Independent-theme shortcode button; the LittleBloom header keeps its own styling. */
+.lbnb-trigger {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 44px; padding: 10px 20px; border: 0; border-radius: 999px;
+    background: #176e65; color: #fff; font: 700 14px/1.4 system-ui, sans-serif;
+    cursor: pointer;
+}
+.lbnb-trigger:hover { background: #12594f; }
+.lbnb-trigger:focus-visible { outline: 3px solid #17365b; outline-offset: 3px; }
+
+/* Step 641: the coloured pushpin doubles as a temporary colour picker. */
+.lb-notice-board-627 .lbnb-card-pin,
+.lb-notice-archive-628 .lbnb-card-pin {
+    position: absolute;
+    z-index: 1;
+    top: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    min-width: 32px;
+    min-height: 32px;
+    padding: 3px;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    color: var(--lbnb-pin-color, var(--lbnb-default-pin-color, #e88b61));
+    cursor: pointer;
+    line-height: 1;
+    box-shadow: none;
+}
+.lb-notice-board-627 .lbnb-card-pin svg,
+.lb-notice-archive-628 .lbnb-card-pin svg {
+    display: block;
+    width: 22px;
+    height: 22px;
+    pointer-events: none;
+    filter: drop-shadow(0 2px 1px rgba(0, 0, 0, .17));
+}
+.lb-notice-board-627 .lbnb-card-pin:hover,
+.lb-notice-archive-628 .lbnb-card-pin:hover {
+    background: rgba(255, 255, 255, .7);
+}
+.lb-notice-board-627 .lbnb-card-pin:focus-visible,
+.lb-notice-archive-628 .lbnb-card-pin:focus-visible {
+    outline: 3px solid #126e61 !important;
+    outline-offset: 2px;
+}
